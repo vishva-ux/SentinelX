@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sentinelx-apigateway
+  namespace: sentinelx
+  labels:
+    app: sentinelx-apigateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sentinelx-apigateway
+  template:
+    metadata:
+      labels:
+        app: sentinelx-apigateway
+    spec:
+      containers:
+      - name: apigateway
+        image: sentinelx/apigateway:v4.2
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinelx-apigateway-svc
+  namespace: sentinelx
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: sentinelx-apigateway
