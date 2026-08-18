@@ -115,11 +115,7 @@ export const SOCDashboard: React.FC<DashboardProps> = ({
                   <div className={`text-xs font-bold ${asset.riskScore > 75 ? 'text-red-600' : asset.riskScore > 50 ? 'text-orange-600' : 'text-green-600'}`}>
                     {asset.riskScore}
                   </div>
-                  <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${
-                    asset.status === 'Compromised' ? 'bg-red-50 text-red-600' :
-                    asset.status === 'Vulnerable' ? 'bg-orange-50 text-orange-600' :
-                    'bg-green-50 text-green-600'
-                  }`}>{asset.status}</span>
+
                 </div>
               </div>
             ))}
@@ -138,7 +134,7 @@ export const SOCDashboard: React.FC<DashboardProps> = ({
                 <SeverityBadge severity={inc.severity} />
                 <div className="min-w-0 flex-1">
                   <div className="text-xs font-semibold text-gray-900 leading-snug truncate">{inc.title}</div>
-                  <div className="text-xs text-gray-400 mt-0.5">{inc.ticketNumber} · {inc.status}</div>
+                  <div className="text-xs text-gray-400 mt-0.5">{inc.ticketNumber}</div>
                 </div>
                 <div className="text-right text-xs text-gray-400 whitespace-nowrap">
                   Risk {inc.riskScore}

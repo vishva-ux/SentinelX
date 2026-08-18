@@ -46,25 +46,16 @@ export const AssetsPage: React.FC<AssetsPageProps> = ({ assets }) => {
               className={`bg-white border rounded-xl p-4 cursor-pointer transition-all hover:border-blue-300 ${selected?.id === asset.id ? 'border-blue-400 ring-1 ring-blue-200' : 'border-gray-200'}`}
             >
               <div className="flex items-start gap-4">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                  asset.status === 'Compromised' ? 'bg-red-100 text-red-600' :
-                  asset.status === 'Vulnerable' ? 'bg-orange-100 text-orange-600' :
-                  'bg-green-100 text-green-600'
-                }`}>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100 text-gray-600">
                   {typeIcon[asset.type] ?? <Server className="w-4 h-4" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-semibold text-gray-900">{asset.name}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded font-medium ${
-                      asset.status === 'Compromised' ? 'bg-red-50 text-red-700' :
-                      asset.status === 'Vulnerable' ? 'bg-orange-50 text-orange-700' :
-                      asset.status === 'Offline' ? 'bg-gray-100 text-gray-600' :
-                      'bg-green-50 text-green-700'
-                    }`}>{asset.status}</span>
+
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">{asset.ipAddress} · {asset.os}</div>
-                  <div className="text-xs text-gray-400 mt-0.5">{asset.owner} · {asset.department}</div>
+
                 </div>
                 <div className="text-right">
                   <div className={`text-lg font-bold ${asset.riskScore > 75 ? 'text-red-600' : asset.riskScore > 50 ? 'text-orange-600' : 'text-green-600'}`}>{asset.riskScore}</div>
@@ -93,8 +84,7 @@ export const AssetsPage: React.FC<AssetsPageProps> = ({ assets }) => {
                 <div><span className="text-gray-400 block">IP Address</span><span className="text-blue-600 font-mono">{selected.ipAddress}</span></div>
                 <div><span className="text-gray-400 block">OS</span><span className="text-gray-800">{selected.os}</span></div>
                 <div><span className="text-gray-400 block">Risk Score</span><span className={`font-bold text-sm ${selected.riskScore > 75 ? 'text-red-600' : 'text-orange-600'}`}>{selected.riskScore}</span></div>
-                <div><span className="text-gray-400 block">Owner</span><span className="text-gray-800">{selected.owner}</span></div>
-                <div><span className="text-gray-400 block">Department</span><span className="text-gray-800">{selected.department}</span></div>
+
               </div>
               <div>
                 <span className="text-gray-400 block mb-1">Running Services</span>

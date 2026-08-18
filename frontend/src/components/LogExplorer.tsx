@@ -105,7 +105,6 @@ export const LogExplorer: React.FC<LogExplorerProps> = ({ alerts }) => {
               <div><span className="text-gray-400 block">Source IP</span><span className="text-blue-600 font-mono">{selected.sourceIp}</span></div>
               <div><span className="text-gray-400 block">Target Asset</span><span className="text-gray-700">{selected.affectedAsset}</span></div>
               {selected.affectedUser && <div><span className="text-gray-400 block">Affected User</span><span className="text-gray-700">{selected.affectedUser}</span></div>}
-              <div><span className="text-gray-400 block">Status</span><span className="text-gray-700">{selected.status}</span></div>
             </div>
             {selected.payload && (
               <div>
