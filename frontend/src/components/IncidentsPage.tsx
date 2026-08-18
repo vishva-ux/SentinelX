@@ -7,21 +7,11 @@ interface IncidentsPageProps {
   incidents: SecurityIncident[];
 }
 
-const statusColor: Record<string, string> = {
-  'New': 'bg-gray-100 text-gray-700',
-  'Investigating': 'bg-blue-50 text-blue-700',
-  'In Progress': 'bg-amber-50 text-amber-700',
-  'Contained': 'bg-purple-50 text-purple-700',
-  'Resolved': 'bg-green-50 text-green-700',
-  'Closed': 'bg-gray-50 text-gray-500',
-};
+
 
 export const IncidentsPage: React.FC<IncidentsPageProps> = ({ incidents }) => {
   const [selected, setSelected] = useState<SecurityIncident | null>(null);
-  const [filter, setFilter] = useState('All');
-
-  const statuses = ['All', 'Investigating', 'In Progress', 'Contained', 'Resolved'];
-  const filtered = incidents.filter(i => filter === 'All' || i.status === filter);
+  const filtered = incidents;
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -35,14 +25,7 @@ export const IncidentsPage: React.FC<IncidentsPageProps> = ({ incidents }) => {
         </button>
       </div>
 
-      {/* Status tabs */}
-      <div className="flex gap-1 mb-4">
-        {statuses.map(s => (
-          <button key={s} onClick={() => setFilter(s)}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${filter === s ? 'bg-white border border-gray-300 text-gray-900 shadow-xs' : 'text-gray-500 hover:text-gray-800'}`}
-          >{s}</button>
-        ))}
-      </div>
+
 
       <div className="flex gap-4">
         {/* List */}
@@ -50,7 +33,7 @@ export const IncidentsPage: React.FC<IncidentsPageProps> = ({ incidents }) => {
           <table className="w-full text-xs">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                {['Ticket', 'Severity', 'Title', 'Status', 'Assignee', 'Risk', 'Updated'].map(h => (
+                {['Ticket', 'Severity', 'Title', 'Risk', 'Updated'].map(h => (
                   <th key={h} className="text-left py-3 px-4 font-semibold text-gray-500">{h}</th>
                 ))}
               </tr>
@@ -64,8 +47,7 @@ export const IncidentsPage: React.FC<IncidentsPageProps> = ({ incidents }) => {
                   <td className="py-3 px-4 font-mono text-blue-600 font-semibold">{inc.ticketNumber}</td>
                   <td className="py-3 px-4"><SeverityBadge severity={inc.severity} /></td>
                   <td className="py-3 px-4 text-gray-900 font-medium max-w-xs truncate">{inc.title}</td>
-                  <td className="py-3 px-4"><span className={`px-2 py-0.5 rounded text-xs font-medium ${statusColor[inc.status] || 'bg-gray-100 text-gray-700'}`}>{inc.status}</span></td>
-                  <td className="py-3 px-4 text-gray-600">{inc.assignee.split(' (')[0]}</td>
+
                   <td className="py-3 px-4"><span className={`font-bold ${inc.riskScore > 80 ? 'text-red-600' : inc.riskScore > 50 ? 'text-orange-600' : 'text-green-600'}`}>{inc.riskScore}</span></td>
                   <td className="py-3 px-4 text-gray-400">{inc.updatedAt.slice(11, 16)}</td>
                 </tr>
@@ -87,7 +69,6 @@ export const IncidentsPage: React.FC<IncidentsPageProps> = ({ incidents }) => {
 
             <div className="flex items-center gap-2 flex-wrap">
               <SeverityBadge severity={selected.severity} />
-              <span className={`px-2 py-0.5 rounded text-xs font-medium ${statusColor[selected.status] || 'bg-gray-100 text-gray-600'}`}>{selected.status}</span>
             </div>
 
             <div className="space-y-3 text-xs">
@@ -102,7 +83,6 @@ export const IncidentsPage: React.FC<IncidentsPageProps> = ({ incidents }) => {
                 </div>
               )}
               <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-100">
-                <div><span className="text-gray-400 block">Assignee</span><span className="text-gray-800 font-medium">{selected.assignee.split(' (')[0]}</span></div>
                 <div><span className="text-gray-400 block">Risk Score</span><span className={`font-bold ${selected.riskScore > 80 ? 'text-red-600' : 'text-orange-600'}`}>{selected.riskScore}/100</span></div>
                 <div><span className="text-gray-400 block">Assets Affected</span><span className="text-gray-800">{selected.affectedAssetsCount}</span></div>
                 <div><span className="text-gray-400 block">Evidence Items</span><span className="text-gray-800">{selected.evidenceCount}</span></div>
