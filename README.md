@@ -42,17 +42,42 @@
 
 ## ⚡ How to Run the Project Locally
 
-Running SentinelX requires zero Docker container setup for frontend local development.
+You can run the frontend dashboard independently with zero setup, or spin up the full backend/database infrastructure using Docker Compose.
 
-### Step 1: Launch Frontend Web Dashboard
-```bash
-cd SentinelX/frontend
-npm run dev
-```
+### 💻 1. Launching the Frontend Web Dashboard
+The React frontend can run locally without any backend dependencies for UI testing:
 
-### Step 2: Access the Application
-Open your web browser and navigate directly to:
-👉 **[http://localhost:5173](http://localhost:5173)**
+1. **Navigate to the frontend folder**:
+   ```bash
+   cd frontend
+   ```
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+4. **Access the application**: Open your browser and go to [http://localhost:5173](http://localhost:5173).
+
+---
+
+### 🐳 2. Launching the Backend & Infrastructure (Optional)
+The databases (PostgreSQL, Redis, Elasticsearch) and the API Gateway can be spun up using Docker Compose:
+
+1. **Navigate to the docker infrastructure folder**:
+   ```bash
+   cd infrastructure/docker
+   ```
+2. **Start the services**:
+   ```bash
+   docker compose up -d
+   ```
+   *Note: If you have updated backend source code and want to rebuild the API Gateway service, run:*
+   ```bash
+   docker compose up --build -d
+   ```
 
 ---
 
@@ -65,4 +90,3 @@ Open your web browser and navigate directly to:
 5. **Asset Risk Inventory**: Centralized server, endpoint, and database risk scoring.
 6. **Threat Intelligence Feed**: Malicious IP, domain, and file hash database.
 7. **Immutable Audit Log**: Searchable record of administrative and security events.
-# SentinelX
