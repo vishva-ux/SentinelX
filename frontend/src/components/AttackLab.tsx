@@ -14,6 +14,16 @@ export const AttackLab: React.FC<AttackLabProps> = ({ onSimulationTriggered }) =
   const [done, setDone] = useState(false);
   const [logs, setLogs] = useState<SimulationStepLog[]>([]);
 
+  const intervalRef = React.useRef<any>(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
   const run = () => {
     setRunning(true);
     setDone(false);
@@ -28,12 +38,16 @@ export const AttackLab: React.FC<AttackLabProps> = ({ onSimulationTriggered }) =
     ];
 
     let i = 0;
-    const iv = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       if (i < generated.length) {
-        setLogs(prev => [...prev, generated[i]]);
+        const nextLog = generated[i];
+        setLogs(prev => [...prev, nextLog]);
         i++;
       } else {
-        clearInterval(iv);
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
         setRunning(false);
         setDone(true);
         onSimulationTriggered(selected, generated);
